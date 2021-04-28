@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星花雪月</title>
+    <link th:href="@{/blogstyle/images/me.jpg}" rel="icon" type="image/x-ico">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css}">
+    <link rel="stylesheet" th:href="@{/blogstyle/css/me.css}">
+</head>
+<body>
+
+<!--导航-->
+<div th:replace="~{common/blogcommon::topbar}"></div>
+
+
+<!--顶部背景图片-->
+<div class="m-bg-type_outer" style="width: 100%;height: 40%">
+    <img th:src="@{/blogstyle/images/aboutbg.jpg}" alt="" class="ui m-bg image" style="width: 100%;height: 100%">
+    <div class="m-bg-class_cover">
+        <div class="ui container" style="position: relative ;bottom: -540px;">
+            <div class="m-font-size-title" align="center" style="font-family:'STXingkai'">关于我</div>
+            <div class="m-font-size-text-init-title m-margin-top" align="center">头一次活这么久，记得善待自己</div>
+        </div>
+    </div>
+</div>
+
+<!--个人资料描述-->
+<div class="ui container m-opacity box-shadow-max">
+    <div class="ui segment m-margin-" align="center">
+        <div class="m-margin-top-large" align="center">
+            <img class="ui circular image" align="center" th:src="@{/blogstyle/images/me.jpg}" style="width: 150px;height: 150px;">
+        </div>
+    <div class="m-margin-top-small" style="font-size: x-large;font-family: STSong" align="center">ONESTAR</div>
+
+    <div class="m-margin-top" align="center">
+        <a href="https://blog.csdn.net/love521314123?spm=1000.2115.3001.5343" target="_blank" class="ui csdn circular icon button" data-content="点击跳转CSDN" data-position="bottom center"><i class="copyright outline icon"></i></a>
+    </div>
+        <hr class="m-margin-top-small" style="width: 30%">
+        <br>
+        <div>
+            <p>本人大学生一枚</p>
+            <p>喜欢编程，打篮球，看书，听音乐</p>
+            <p>热衷于分享生活的点点滴滴</p>
+            <p>写这个网站的目的主要是为了巩固所学的知识</p>
+            <p>如果有什么问题</p>
+            <p>可以扫描下方的二维码联系我</p>
+            <p>相逢即是有缘</p>
+            <p>希望所有不小心点进来的朋友们天天开心！！！</p>
+        </div>
+        <hr class="m-margin-top-large">
+        <br>
+    </div>
+</div>
+
+  <br>
+  <br>
+
+  <!--底部栏-->
+<div th:replace="~{common/blogcommon::footbar(articlesNum=${articlesNum},commentsNum=${commentsNum},hits=${hits})}"></div>
+
+
+
+  <script th:src="@{https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js}"></script>
+  <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
+  <div th:replace="~{common/blogcommon::javascript}"></div>
+  <script>
+      // $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
+
+
+    $('.menu.toggle').click(function () {
+      $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    // 显示公众号
+    $('.tencent').popup({
+        popup : $('.tencent-qr'),
+        position: 'bottom center'
+    });
+
+    // 显示微信
+    $('.wechat').popup({
+        popup : $('.wechat-qr'),
+        position: 'bottom center'
+    });
+
+    // 显示QQ
+    $('.qq').popup({
+        popup : $('.qq-qr'),
+        position: 'bottom center'
+    });
+
+    // 显示邮箱
+    $('.email').popup();
+
+    // 显示CSDN
+    $('.csdn').popup();
+
+      // 显示github
+      $('.github').popup();
+  </script>
+</body>
+</html>

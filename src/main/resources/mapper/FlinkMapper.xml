@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dz.dao.FlinkMapper">
+
+    <insert id="addFlink" parameterType="Flink">
+        insert into blog.flink (name,url) values (#{name},#{url})
+    </insert>
+
+   <select id="queryAllFlinks" resultType="Flink">
+       SELECT * from blog.flink
+   </select>
+
+    <delete id="deleteFlink">
+        delete from blog.flink where name=#{name}
+    </delete>
+
+    <select id="getFlinkCount" resultType="java.lang.Long">
+        select count(*) from blog.flink;
+    </select>
+
+</mapper>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>星花雪月</title>
+  <link th:href="@{/blogstyle/images/me.jpg}" rel="icon" type="image/x-ico">
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css}">
+  <link rel="stylesheet"  th:href="@{/blogstyle/css/typo.css}">
+  <link rel="stylesheet"  th:href="@{/blogstyle/css/animate.css}">
+  <link rel="stylesheet"  th:href="@{/blogstyle/lib/prism/prism.css}">
+  <link rel="stylesheet"  th:href="@{/blogstyle/lib/tocbot/tocbot.css}">
+  <link rel="stylesheet"  th:href="@{/blogstyle/css/me.css}">
+  <link rel="stylesheet"  th:href="@{/blogstyle/css/timeline.css}">
+
+<!--  ---------------------------------- md格式-->
+
+</head>
+<body>
+
+<!--导航-->
+<div th:replace="~{common/blogcommon::topbar}"></div>
+
+<!--顶部图片-->
+<div class="m-bg-type_outer" style="width: 100%;height: 50%">
+  <img th:src="@{/blogstyle/images/bg.jpg}" alt="" class="ui m-bg image" style="width: 100%;height: 100%">
+  <div class="m-bg-class_cover">
+    <div class="ui container" style="position: relative ;bottom: -540px;">
+      <h2 class="m-font-size-title-large" align="center" th:text="${article.getTitle()}"></h2>
+      <div class="ui container" align="center">
+        <div class="ui horizontal link list" align="center">
+          <div class="item">
+            <div class="ui orange basic label" style="font-size: 7px">原创</div>
+          </div>
+          <div class="item">
+            <i class="user outline outline icon m-font-size-text-mini"></i>
+            <a href="#" style="color: #ffffff;font-size: 18px">星花雪月</a>
+          </div>
+          <div class="item">
+            <i class="calendar icon m-font-size-text-mini"></i>
+            <span class="m-font-size-text-mini" th:text="${#dates.format(article.getDate(),'yyyy-MM-dd')}"></span>
+          </div>
+          <div class="item">
+            <i class="clone icon m-font-size-text-mini"></i>
+            <a href="#" target="_blank" style="color: #ffffff;font-size: 16px" th:text="${article.getType()}"></a>
+          </div>
+          <div class="item">
+            <i class="eye icon m-font-size-text-mini"></i> <span class="m-font-size-text-mini" th:text="${article.getHits()}"></span>
+          </div>
+          <div class="item">
+            <i class="comment outline icon m-font-size-text-mini"></i>
+            <span class="m-font-size-text-mini" th:text="${commentNum}"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--中间内容-->
+<div id="waypoint" class="m-margin- animated fadeIn">
+  <div class="ui container m-opacity box-shadow-max">
+    <!--内容-->
+    <div class="ui attached padded segment">
+      <!--在该div中展示,如有初始化的数据可以放在textarea中-->
+      <p id="editormd" name="editormd" th:utext="${article.getContent()}"></p>
+      <div class="ui horizontal divider">end</div>
+      <!--赞赏-->
+      <div >
+        <div class="ui center aligned basic segment">
+          <button id="payButton" class="ui orange basic circular button">赞赏</button>
+        </div>
+        <div class="ui payQR flowing popup transition hidden">
+          <div class="ui orange basic label">
+            <div class="ui images" style="font-size: inherit !important;">
+              <div class="image">
+                <img th:src="@{/blogstyle/images/zhifupay.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
+                <div>支付宝</div>
+              </div>
+              <div class="image">
+                <img th:src="@{/blogstyle/images/wechatpay.jpg}" alt="" class="ui rounded bordered image" style="width: 120px">
+                <div>微信</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="goto" class="ui attached positive message">
+      <!--博客信息-->
+      <div class="ui middle aligned grid">
+        <div class="nine wide column">
+          <ui class="list">
+            <li>作者：<span>星花雪月</span>
+            <li>发表时间：<span th:text="${#dates.format(article.getDate(),'yyyy-MM-dd')}"></span></li>
+            <li>版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）</li>
+            <li>转载声明：如果是转载栈主转载的文章，请附上原文链接</li>
+          </ui>
+        </div>
+      </div>
+    </div>
+<!--   评论 提交-->
+    <div class="ui container m-opacity box-shadow-max">
+        <!-- 新增留言-->
+      <form th:action="@{/blog/addComment}">
+        <div id="message-form" class="ui form">
+          <input type="hidden" name="id">
+<!--       外键-->
+          <input type="hidden" name="cid" th:value="${article.getId()}">
+          <input type="hidden" name="date">
+          <!-- 留言区-->
+          <div class="field">
+            <textarea name="content" id="content" placeholder="请输入留言信息..."></textarea>
+          </div>
+          <div class="ui grid">
+            <!--                    输入姓名-->
+            <div class="five wide column">
+              <div class="field m-mobile-wide m-margin-bottom-small">
+                <div class="ui left icon input">
+                  <i class="user icon"></i>
+                  <input type="text" name="nickname" id="nickname" placeholder="name">
+                </div>
+              </div>
+            </div>
+            <!--  输入邮箱-->
+            <div class="five wide column">
+              <div class="field m-mobile-wide m-margin-bottom-small">
+                <div class="ui left icon input">
+                  <i class="mail icon"></i>
+                  <input type="text" name="email" id="email" placeholder="Email">
+                </div>
+              </div>
+            </div>
+            <div class="right aligned six wide column">
+              <div class="field m-mobile-wide m-margin-bottom-small">
+                <button id="messagepost-btn" type="submit" class="ui teal button m-mobile-wide" onclick="return check()"><i class="edit icon"></i>发布</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+        <!--留言区-->
+        <div class="ui bottom attached m-margin-top">
+          <div id="message-container" class="ui teal segment">
+            <div>
+              <div class="ui threaded comments" style="max-width: 100%;">
+                <h3 class="ui dividing header">留言</h3>
+                <div class="comment" th:each="comment:${comments}">
+                  <a class="avatar">
+                    <img th:src="@{/blogstyle/images/avatar.png}">
+                  </a>
+                  <div class="content">
+                    <a class="author">
+                      <span th:text="${comment.getNickname()}"></span>
+                    </a>
+                    <div class="metadata">
+                      <span class="date" th:text="${#dates.format(article.getDate(),'yyyy-MM-dd')}"></span>
+                    </div>
+                    <div class="text" th:text="${comment.getContent()}"> </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="ui toc-container flowing popup transition hidden" style="width: 250px!important;">
+  <ol class="js-toc">
+
+  </ol>
+</div>
+
+<div id="qrcode" class="ui wechat-qr flowing popup transition hidden "style="width: 130px !important;">
+  <!--<img src="./static/images/wechat.jpg" alt="" class="ui rounded image" style="width: 120px !important;">-->
+</div>
+
+
+
+<br>
+<br>
+<!--底部栏-->
+
+<div th:replace="~{common/blogcommon::footbar(articlesNum=${articlesNum},commentsNum=${commentsNum},hits=${hits})}"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+
+
+<div th:replace="~{common/blogcommon::javascript}"></div>
+
+
+<script>
+
+  $('.menu.toggle').click(function () {
+    $('.m-item').toggleClass('m-mobile-hide');
+  });
+
+  $('#payButton').popup({
+    popup : $('.payQR.popup'),
+    on : 'click',
+    position: 'bottom center'
+  });
+
+  tocbot.init({
+    // Where to render the table of contents.
+    tocSelector: '.js-toc',
+    // Where to grab the headings to build the table of contents.
+    contentSelector: '.js-toc-content',
+    // Which headings to grab inside of the contentSelector element.
+    headingSelector: 'h1, h2, h3',
+  });
+
+  $('.toc.button').popup({
+    popup : $('.toc-container.popup'),
+    on : 'click',
+    position: 'left center'
+  });
+
+  $('.wechat').popup({
+    popup : $('.wechat-qr'),
+    position: 'left center'
+  });
+
+  function check() {
+    var name = $("#nickname").val();
+    var content=$("#content").val();
+    var email=$("#email").val();
+    var reg=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+    if (name == null || name == "") {
+      $("#nickname").css("border-color", "red");
+      return false;
+    }
+    else {
+      $("#nickname").css("border-color", "blue");
+    }
+    if (content == null || content == "") {
+      $("#content").css("border-color", "red");
+      return false;
+    }
+    else {
+      $("#content").css("border-color", "blue");
+    }
+    if (email == null || email == "" || email.search(reg) == -1) {
+      $("#email").css("border-color", "red");
+      return false;
+    }
+    else {
+      $("#email").css("border-color", "blue");
+    }
+    return true;
+  }
+
+</script>
+
+</body>
+</html>
