@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dz.dao.TypeMapper">
+
+    <select id="allTypes" resultType="Type">
+        select * from blog.type;
+    </select>
+
+    <select id="getTypeByid" resultType="Type">
+        select * from blog.type where id=#{id}
+    </select>
+
+    <insert id="addType" parameterType="Type">
+        insert into blog.type (id,name,number) values (#{id},
+        #{name},#{number})
+    </insert>
+
+    <update id="updataType" parameterType="Type">
+        update blog.type set name=#{name},number=#{number} where id=#{id}
+    </update>
+
+    <update id="updateNum">
+        update blog.type set number=#{number} where id=#{tid}
+    </update>
+
+    <delete id="deleteType">
+        delete from blog.type where id=#{id}
+    </delete>
+</mapper>

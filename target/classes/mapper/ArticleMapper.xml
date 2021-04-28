@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dz.dao.ArticleMapper">
+
+    <select id="allArticles" resultType="Article">
+        select * from blog.article;
+    </select>
+
+    <select id="getArticleByid" resultType="Article">
+        select * from blog.article where id=#{id};
+    </select>
+
+    <insert id="addArticle" parameterType="Article">
+        insert into blog.article (id,title,titlePic,status,labels,commentsNum,date,hits,content,info,type,tid) values
+        (#{id},#{title},#{titlePic},#{status},#{labels},#{commentsNum},#{date},#{hits},#{content},#{info},#{type},#{tid})
+    </insert>
+
+    <update id="updataArticle" parameterType="Article">
+        update blog.article set title=#{title},content=#{content},info=#{info},labels=#{labels},date=#{date},
+         titlePic=#{titlePic},status=#{status},commentsNum=#{commentsNum},hits=#{hits},type=#{type},tid=#{tid} where id=#{id}
+    </update>
+
+    <delete id="deleteArticle">
+        delete from blog.article where id=#{id}
+    </delete>
+
+    <update id="updataHitNum">
+        update blog.article set hits=#{hits} where id=#{id}
+    </update>
+
+    <select id="getCommentCountById" resultType="java.lang.Long">
+        SELECT commentsNum FROM blog.article where id=#{id}
+    </select>
+
+    <select id="getArticleCount" resultType="java.lang.Long">
+        SELECT count(*) FROM blog.article
+    </select>
+
+    <select id="queryArticlesByInfo" resultType="Article">
+        select * from blog.article where title like concat('%',#{query},'%') or type like #{%query%} or labels like #{%query%}
+    </select>
+
+</mapper>

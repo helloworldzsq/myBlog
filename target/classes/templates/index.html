@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head >
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星花雪月</title>
+    <link th:href="@{/blogstyle/images/me.jpg}" rel="icon" type="image/x-ico">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css}">
+    <link rel="stylesheet" th:href="@{/blogstyle/lib/editormd/css/editormd.min.css}">
+    <link rel="stylesheet" th:href="@{/blogstyle/css/me.css}">
+
+</head>
+<body>
+
+<div th:replace="~{common/blogcommon::topbar}"></div>
+<!--顶部背景图片-->
+<div class="m-bg-type_outer" style="width: 100%;height: 40%">
+    <img th:src="@{/blogstyle/images/aboutbg.jpg}" alt="" class="ui m-bg image" style="width: 100%;height: 100%">
+    <div class="m-bg-class_cover">
+        <div class="ui container" style="position: relative ;bottom: -540px;">
+            <div class="m-font-size-title" align="center" style="font-family:'STXingkai'">文章展示</div>
+            <div class="m-font-size-text-init-title m-margin-top" align="center">头一次活这么久，记得善待自己</div>
+        </div>
+    </div>
+</div>
+
+<!--中间内容-->
+<div class="m-padded-tb-big animated fadeIn">
+    <div class="ui container">
+        <div class="ui stackable grid">
+            <!--博客内容-->
+            <div class="ui vertical segment">
+                <div class="ui m-container-small m-opacity">
+                    <div class="ui secondary segment " align="center">
+                        <i class="bookmark icon"></i>最新文章
+                    </div>
+                </div>
+                <!--博文列表-->
+                <div class="ui padded segment m-padded-tb-large m-opacity" th:each="article:${articles}">
+                    <div class="ui large aligned mobile reversed stackable grid">
+                        <!--博文信息-->
+                        <div class="eleven wide column ">
+                            <h3 class="ui header" >
+                                <a id="name" th:href="@{/blog/toarticle}+${article.getId()}" target="_blank" class="m-black" th:text="${article.getTitle()}"></a>
+                            </h3>
+                            <p class="m-text m-margin-top-max" th:text="${article.getInfo()}"></p>
+                            <div class="ui m-margin-top-max grid">
+                                <div class="eleven wide column">
+                                    <div class="ui mini horizontal link list">
+                                        <div class="item">
+                                            <img th:src="@{/blogstyle/images/me.jpg}" alt="" class="ui avatar image">
+                                            <div class="content"><a th:href="@{/blog/toabout}" target="_blank" class="header" >星花雪月</a></div>
+                                        </div>
+                                        <div class="item">
+                                            <i class="calendar icon"></i><span th:text="${#dates.format(article.getDate(),'yyyy-MM-dd')}"></span>
+                                        </div>
+                                        <div class="item">
+                                            <i class="eye icon"></i> <span th:text="${article.getHits()}"></span>
+                                        </div>
+                                        <div class="item">
+                                            <i class="comment outline icon"></i> <span th:text="${article.getCommentsNum()}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right aligned five wide column">
+                                    <a th:href="@{/blog/toTypes}+${article.getTid()}" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin" th:text="${article.getType()}"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--博文图片-->
+                        <div class="five wide column">
+                            <a th:href="@{/blog/toarticle}+${article.getId()}" target="_blank">
+                                <img th:src="@{/blogstyle/images/backimg1.jpg}" alt="" class="ui rounded image">
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<!--置顶图标-->
+<div class="m-padded-tb-large m-fixed m-right-bottom">
+    <a href="#" class="ui icon button"><i class="chevron up icon"></i> </a>
+</div>
+
+
+
+<br>
+<br>
+<br>
+<div th:replace="~{common/blogcommon::footbar(articlesNum=${articlesNum},commentsNum=${commentsNum},hits=${hits})}"></div>
+
+
+<script th:src="@{https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js}"></script>
+<script th:src="@{https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js}"></script>
+<script th:src="@{/blogstyle/lib/waypoints/jquery.waypoints.min.js}"></script>
+
+<div th:replace="~{common/blogcommon::javascript}"></div>
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-show');
+
+    });
+
+    // 显示公众号
+    $('.tencent').popup({
+        popup : $('.tencent-qr'),
+        position: 'bottom center'
+    });
+
+    // 显示微信
+    $('.wechat').popup({
+        popup : $('.wechat-qr'),
+        position: 'bottom center'
+    });
+
+    // 显示QQ
+    $('.qq').popup({
+        popup : $('.qq-qr'),
+        position: 'bottom center'
+    });
+
+    // 显示邮箱
+    $('.email').popup();
+
+    // 显示CSDN
+    $('.csdn').popup();
+
+    // 显示github
+    $('.github').popup();
+
+    // 导航栏显示
+    var waypoint = new Waypoint({
+        element: document.getElementById('waypoint'),
+        handler: function(direction) {
+            if (direction == 'down') {
+                $('#nav').show(500);
+            } else {
+                $('#nav').hide(500);
+            }
+            console.log('Scrolled to waypoint!  ' + direction);
+        }
+    })
+</script>
+</body>
+</html>
